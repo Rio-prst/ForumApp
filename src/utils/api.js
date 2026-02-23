@@ -135,7 +135,7 @@ const api = (() => {
   }
 
   async function getDetailThread(threadId) {
-    const response = await fetch(`${BASE_URL}/threads/threadId`);
+    const response = await fetch(`${BASE_URL}/threads/${threadId}`);
     const responseJson = await response.json();
 
     const { status, message } = responseJson;
@@ -147,4 +147,171 @@ const api = (() => {
     const { data: { detailThread }} = responseJson;
     return detailThread;
   }
+
+  async function createComment({ threadId, content }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments`, {
+      method: 'POST',
+      body: JSON.stringify({
+        content,
+      }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'status') {
+      throw new Error(message);
+    }
+
+    const { data: { comment }} = responseJson;
+    return comment;
+  }
+
+  async function upVoteThread(threadId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/up-vote`, {
+      method: 'POST',
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: { vote } } = responseJson;
+    return vote;
+  }
+
+  async function downVoteThread(threadId) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/down-vote`,
+      {
+        method: 'POST',
+      }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { vote },
+    } = responseJson;
+
+    return vote;
+  }
+
+  async function neutralVoteThread(threadId) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/neutral-vote`,
+      {
+        method: 'POST',
+      }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { vote },
+    } = responseJson;
+
+    return vote;
+  }
+
+  async function upVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`,
+      { method: 'POST' }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return responseJson.data.vote;
+  }
+
+  async function downVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`,
+      { method: 'POST' }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return responseJson.data.vote;
+  }
+
+  async function neutralVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`,
+      { method: 'POST' }
+    );
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return responseJson.data.vote;
+  }
+
+  async function getLeaderboards() {
+    const response = await fetch(`${BASE_URL}/leaderboards`);
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { leaderboards },
+    } = responseJson;
+
+    return leaderboards;
+  }
+
+  return {
+    putAccessToken,
+    getAccessToken,
+    register,
+    login,
+    logout,
+    getOwnProfile,
+    getAllUsers,
+    createThread,
+    getAllThreads,
+    getThreadDetail,
+    createComment,
+    upVoteThread,
+    downVoteThread,
+    neutralVoteThread,
+    upVoteComment,
+    downVoteComment,
+    neutralVoteComment,
+    getLeaderboards,
+  };
 });
+
+export default api;
