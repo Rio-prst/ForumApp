@@ -1,6 +1,18 @@
 const api = (() => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  function putAccessToken(token) {
+    localStorage.setItem('accessToken', token);
+  }
+
+  function getAccessToken() {
+    return localStorage.getItem('accessToken');
+  }
+
+  function removeAccessToken() {
+    localStorage.removeItem('accessToken');
+  }
+
   async function _fetchWithAuth(url, options = {}) {
     return fetch(url, {
       ...options,
@@ -12,306 +24,155 @@ const api = (() => {
     });
   }
 
-  function putAccessToken(token) {
-    localStorage.setItem('accessToken', token);
-  }
-
-  function getAccessToken() {
-    localStorage.getItem('accessToken');
-  }
-
-  function removeAccessToken() {
-    localStorage.removeItem('accessToken');
-  }
-
   async function register({ name, email, password }) {
     const response = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
     });
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { user }} = responseJson;
-    return user;
+    return responseJson.data.user; // Skema: data.user
   }
 
   async function login({ email, password }) {
     const response = await fetch(`${BASE_URL}/login`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { token }} = responseJson;
-    return token;
+    return responseJson.data.token; // Skema: data.token
   }
 
   async function getAllUsers() {
     const response = await fetch(`${BASE_URL}/users`);
-
     const responseJson = await response.json();
-    const { states, message } = responseJson;
+    const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { users }} = responseJson;
-    return users;
+    return responseJson.data.users; // Skema: data.users
   }
 
   async function getOwnProfile() {
     const response = await _fetchWithAuth(`${BASE_URL}/users/me`);
-
-    const responseJson = await response.json();
-    const { status, message } = responseJson;
-    
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
-    const { data: { user }} = responseJson;
-    return user;
-  }
-
-  async function createThread({ title, body, category }) {
-    const response = await _fetchWithAuth(`${BASE_URL}/threads`, {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-        body,
-        category
-      }),
-    });
-
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { thread } } = responseJson;
-    return thread;
+    return responseJson.data.user; // Skema: data.user
   }
 
   async function getAllThreads() {
     const response = await fetch(`${BASE_URL}/threads`);
     const responseJson = await response.json();
-    
     const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const {  data: { threads } } = responseJson;
-    return threads;
+    return responseJson.data.threads; // Skema: data.threads
   }
 
-  async function getDetailThread(threadId) {
-    const response = await fetch(`${BASE_URL}/threads/${threadId}`);
+  async function getThreadDetail(id) {
+    const response = await fetch(`${BASE_URL}/threads/${id}`);
     const responseJson = await response.json();
-
     const { status, message } = responseJson;
 
-    if (status !== 'success') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { detailThread }} = responseJson;
-    return detailThread;
+    return responseJson.data.detailThread; // Skema: data.detailThread
+  }
+
+  async function createThread({ title, body, category = '' }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads`, {
+      method: 'POST',
+      body: JSON.stringify({ title, body, category }),
+    });
+
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') throw new Error(message);
+
+    return responseJson.data.thread; // Skema: data.thread
   }
 
   async function createComment({ threadId, content }) {
     const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments`, {
       method: 'POST',
-      body: JSON.stringify({
-        content,
-      }),
+      body: JSON.stringify({ content }),
     });
 
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    if (status !== 'status') {
-      throw new Error(message);
-    }
+    if (status !== 'success') throw new Error(message);
 
-    const { data: { comment }} = responseJson;
-    return comment;
+    return responseJson.data.comment; // Skema: data.comment
   }
 
-  async function upVoteThread(threadId) {
+  async function toggleUpVoteThread(threadId) {
     const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/up-vote`, {
       method: 'POST',
     });
-
     const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
-    const { data: { vote } } = responseJson;
-    return vote;
-  }
-
-  async function downVoteThread(threadId) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/threads/${threadId}/down-vote`,
-      {
-        method: 'POST',
-      }
-    );
-
-    const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
-    const {
-      data: { vote },
-    } = responseJson;
-
-    return vote;
-  }
-
-  async function neutralVoteThread(threadId) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/threads/${threadId}/neutral-vote`,
-      {
-        method: 'POST',
-      }
-    );
-
-    const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
-    const {
-      data: { vote },
-    } = responseJson;
-
-    return vote;
-  }
-
-  async function upVoteComment({ threadId, commentId }) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`,
-      { method: 'POST' }
-    );
-
-    const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
     return responseJson.data.vote;
   }
 
-  async function downVoteComment({ threadId, commentId }) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`,
-      { method: 'POST' }
-    );
-
+  async function toggleDownVoteThread(threadId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/down-vote`, {
+      method: 'POST',
+    });
     const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
     return responseJson.data.vote;
   }
 
-  async function neutralVoteComment({ threadId, commentId }) {
-    const response = await _fetchWithAuth(
-      `${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`,
-      { method: 'POST' }
-    );
-
+  async function toggleNeutralVoteThread(threadId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/neutral-vote`, {
+      method: 'POST',
+    });
     const responseJson = await response.json();
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
     return responseJson.data.vote;
   }
 
   async function getLeaderboards() {
     const response = await fetch(`${BASE_URL}/leaderboards`);
     const responseJson = await response.json();
-
-    const { status, message } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
-    }
-
-    const {
-      data: { leaderboards },
-    } = responseJson;
-
-    return leaderboards;
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
+    return responseJson.data.leaderboards; // Skema: data.leaderboards
   }
 
   return {
     putAccessToken,
     getAccessToken,
+    removeAccessToken,
     register,
     login,
-    logout,
     getOwnProfile,
     getAllUsers,
-    createThread,
     getAllThreads,
+    createThread,
     getThreadDetail,
     createComment,
-    upVoteThread,
-    downVoteThread,
-    neutralVoteThread,
-    upVoteComment,
-    downVoteComment,
-    neutralVoteComment,
+    toggleUpVoteThread,
+    toggleDownVoteThread,
+    toggleNeutralVoteThread,
     getLeaderboards,
   };
-});
+})();
 
 export default api;

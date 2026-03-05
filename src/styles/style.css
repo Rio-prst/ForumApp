@@ -1,0 +1,323 @@
+/* ==========================================================================
+   1. RESET & VARIABLES
+   ========================================================================== */
+:root {
+  --primary: #6366F1;
+  --primary-hover: #4F46E5;
+  --bg-app: #F9FAFB;
+  --bg-card: #FFFFFF;
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --border: #E5E7EB;
+  --chip-bg: #F3F4F6;
+  --white: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   2. NAVIGATION (Sticky Header)
+   ========================================================================== */
+.navigation {
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  z-index: 1000;
+}
+
+.navigation__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-main);
+}
+
+.logo-icon-wrapper {
+  background: var(--primary);
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation__logo h1 span {
+  color: var(--primary);
+}
+
+.navigation__menu {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.nav-link.active {
+  color: var(--primary);
+  background: #EEF2FF;
+}
+
+.btn-new-thread {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-new-thread:hover {
+  background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   3. HOME PAGE & FILTER
+   ========================================================================== */
+.home-page {
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.home-page__header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.home-page__header p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.categories-filter {
+  display: flex;
+  gap: 0.75rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.categories-filter button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.categories-filter button.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+/* ==========================================================================
+   4. TALKS LIST (Grid Layout)
+   ========================================================================== */
+.talks-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); /* Dua kolom */
+  gap: 1.5rem;
+}
+
+.talk-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px; /* Sesuai referensi gambar */
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.talk-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.04);
+}
+
+.talk-item__category {
+  align-self: flex-start;
+  background: var(--chip-bg);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.talk-item__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.talk-item__body {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   5. CARD FOOTER (User Info & Actions)
+   ========================================================================== */
+.talk-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.talk-item__user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* 1. Perbaikan Avatar: Menjadi bulat dan kecil */
+.user-avatar-small {
+  width: 32px;          /* Ukuran diperkecil sesuai desain */
+  height: 32px;
+  border-radius: 50%;   /* Membuat avatar menjadi bulat sempurna */
+  object-fit: cover;    /* Memastikan gambar tidak gepeng */
+}
+
+/* Jika kamu masih menggunakan div berwarna (seperti kotak kuning di gambar kamu) */
+.user-avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* 2. Perbaikan Actions: Memindah voting ke sebelah kanan */
+.talk-item__footer {
+  display: flex;
+  justify-content: space-between; /* Memaksa info user ke kiri, info vote ke kanan */
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.talk-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;            /* Jarak antar grup voting dan komentar */
+}
+
+.vote-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #f0f7ff; /* Warna biru muda sesuai gambar target */
+  padding: 4px 12px;
+  border-radius: 20px;       /* Membuat tombol lonjong (pill-shaped) */
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.vote-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: inherit;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.vote-button:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.posted-at {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.talk-item__actions {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   6. UTILITIES (Loading & Skeletons)
+   ========================================================================== */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spinner { animation: spin 1s linear infinite; }
+
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.skeleton {
+  background: #f6f7f8;
+  background-image: linear-gradient(90deg, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 12px;
+}
