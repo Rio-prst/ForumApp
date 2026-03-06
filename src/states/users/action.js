@@ -8,23 +8,21 @@ const ActionType = {
 function receiveUsersActionCreator(users) {
   return {
     type: ActionType.RECEIVE_USERS,
-    payload: {
-      users,
-    },
+    payload: { users },
   };
 }
 
 function asyncRegisterUser({ name, email, password }) {
   return async (dispatch) => {
-    dispatch(setIsSubmittingActionCreator(true))
+    dispatch(setIsSubmittingActionCreator(true));
     try {
       await api.register({ name, email, password });
     } catch (error) {
       alert(error.message);
     } finally {
-      setIsSubmittingActionCreator(false);
+      dispatch(setIsSubmittingActionCreator(false)); 
     }
-  }
+  };
 }
 
 export {

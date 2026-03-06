@@ -36,7 +36,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.user; // Skema: data.user
+    return responseJson.data.user; 
   }
 
   async function login({ email, password }) {
@@ -61,7 +61,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.users; // Skema: data.users
+    return responseJson.data.users; 
   }
 
   async function getOwnProfile() {
@@ -71,7 +71,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.user; // Skema: data.user
+    return responseJson.data.user; 
   }
 
   async function getAllThreads() {
@@ -81,7 +81,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.threads; // Skema: data.threads
+    return responseJson.data.threads; 
   }
 
   async function getThreadDetail(id) {
@@ -91,7 +91,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.detailThread; // Skema: data.detailThread
+    return responseJson.data.detailThread; 
   }
 
   async function createThread({ title, body, category = '' }) {
@@ -105,7 +105,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.thread; // Skema: data.thread
+    return responseJson.data.thread;
   }
 
   async function createComment({ threadId, content }) {
@@ -119,7 +119,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.comment; // Skema: data.comment
+    return responseJson.data.comment;
   }
 
   async function toggleUpVoteThread(threadId) {
@@ -153,7 +153,7 @@ const api = (() => {
     const response = await fetch(`${BASE_URL}/leaderboards`);
     const responseJson = await response.json();
     if (responseJson.status !== 'success') throw new Error(responseJson.message);
-    return responseJson.data.leaderboards; // Skema: data.leaderboards
+    return responseJson.data.leaderboards;
   }
 
   return {

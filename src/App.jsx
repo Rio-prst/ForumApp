@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
@@ -11,8 +11,11 @@ import { asyncUnsetAuthUser } from './states/authUser/action';
 function App() {
   const authUser = useSelector((state) => state.authUser);
   const isPreload = useSelector((state) => state.isPreload);
-  
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const hideNavbar = ['/login', '/register'].includes(location.pathname);
 
   useEffect(() => {
     dispatch(asyncPreloadProcess());
@@ -20,23 +23,38 @@ function App() {
 
   const onSignOut = () => {
     dispatch(asyncUnsetAuthUser());
+    navigate('/login');
   };
 
-  if (isPreload) return null; 
+  if (isPreload) {
+    return null;
+  }
 
   return (
-    <div className='app-container'>
-      <header>
-        <Navigation authUser={authUser} signOut={onSignOut} />
-      </header>
-      <main>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-        </Routes>
-      </main>
-    </div>
+    <>
+      <div className='app-container'>
+        <header>
+          {!hideNavbar && <Navigation authUser={authUser} signOut={onSignOut} />}
+        </header>
+        <main>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route
+              path='/login'
+              element={authUser ? <Navigate to='/' replace /> : <LoginPage />}
+            />
+            <Route
+              path='/register'
+              element={authUser ? <Navigate to='/' replace /> : <RegisterPage />}
+            />
+            <Route
+              path='*'
+              element={<Navigate to={authUser ? '/' : '/login'} replace />}
+            />
+          </Routes>
+        </main>
+      </div>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { MessagesSquare, Trophy, Plus, Sun, LogOut } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import { MessagesSquare, Trophy, Plus, Sun, LogOut, LogIn } from 'lucide-react';
 
 function Navigation({ authUser, signOut }) {
   return (
@@ -15,52 +15,40 @@ function Navigation({ authUser, signOut }) {
         </Link>
 
         <nav className='navigation__menu'>
-          <Link to='/' className='nav-link active'>
+          {/* NavLink akan otomatis menjadi class active jika URL cocok */}
+          <NavLink to='/' className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             <MessagesSquare size={20} />
             <span>Threads</span>
-          </Link>
-          <Link to='/leaderboards' className='nav-link'>
+          </NavLink>
+          <NavLink to='/leaderboards' className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             <Trophy size={20} />
             <span>Leaderboard</span>
-          </Link>
+          </NavLink>
         </nav>
 
         <div className='navigation__actions'>
-          {authUser && (
+          <button className='btn-theme' title='Toggle Theme' type='button'>
+            <Sun size={20} />
+          </button>
+
+          {authUser ? (
             <>
               <Link to='/new' className='btn-new-thread'>
                 <Plus size={18} />
                 <span>New Thread</span>
               </Link>
-
-              <button className='btn-theme' title='Toggle Theme' type='button'>
-                <Sun size={20} />
-              </button>
-
               <div className='user-profile'>
-                <img
-                  src={authUser.avatar}
-                  alt={authUser.name}
-                  title={authUser.name}
-                  className='user-avatar'
-                />
-                <button
-                  onClick={signOut}
-                  className='btn-logout'
-                  title='Sign Out'
-                  type='button'
-                >
+                <img src={authUser.avatar} alt={authUser.name} className='user-avatar-small' />
+                <button onClick={signOut} className='btn-logout' title='Sign Out'>
                   <LogOut size={18} />
                 </button>
               </div>
             </>
-          )}
-
-          {!authUser && (
-            <>
-              <Link to='/login'>Login</Link>
-              <Link to='/register'>Register</Link>
-            </>
+          ) : (
+            <Link to='/login' className='btn-sign-in'>
+              <LogIn size={18} />
+              <span>Sign In</span>
+            </Link>
           )}
         </div>
       </div>
@@ -72,8 +60,8 @@ Navigation.propTypes = {
   authUser: PropTypes.shape({
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
-  }).isRequired,
-  signOut: PropTypes.func.isRequired,
+  }),
+  signOut: PropTypes.func,
 };
 
 export default Navigation;

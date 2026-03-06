@@ -1,14 +1,19 @@
 import React from 'react';
-import TalkItem from './TalkItem';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import TalkItem from './TalkItem';
+import SkeletonItem from './SkeletonItem'; 
 
 function TalksList({ talks }) {
-  const { isFetching } = useSelector((state) => state.loading);
+  const loadingBar = useSelector((state) => state.loadingBar);
+  const isFetching = loadingBar && loadingBar.default > 0;
 
-  if (isFetching) {
+  if (isFetching && talks.length === 0) {
     return (
       <div className='talks-list'>
-        {[1, 2, 3].map((i) => <div key={i} className='skeleton talk-item-skeleton' />)}
+        {[1, 2, 3, 4].map((index) => (
+          <SkeletonItem key={index} />
+        ))}
       </div>
     );
   }
@@ -21,5 +26,11 @@ function TalksList({ talks }) {
     </div>
   );
 }
+
+TalksList.propTypes = {
+  talks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  })).isRequired,
+};
 
 export default TalksList;
