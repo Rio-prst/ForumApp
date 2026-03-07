@@ -5,6 +5,9 @@ import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import DetailPage from './pages/DetailPage';
+import AddThreadPage from './pages/AddThreadPage';
+import LeaderboardsPage from './pages/LeaderboardsPage';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import { asyncUnsetAuthUser } from './states/authUser/action';
 
@@ -46,6 +49,18 @@ function App() {
             <Route
               path='/register'
               element={authUser ? <Navigate to='/' replace /> : <RegisterPage />}
+            />
+            <Route
+              path='/threads/:id'
+              element={<DetailPage/>}
+            />
+            <Route
+              path='/new'
+              element={<AddThreadPage/>}
+            />
+            <Route
+              path='/leaderboards'
+              element={<LeaderboardsPage/>}
             />
             <Route
               path='*'

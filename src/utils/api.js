@@ -51,7 +51,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.token; // Skema: data.token
+    return responseJson.data.token;
   }
 
   async function getAllUsers() {
@@ -84,7 +84,7 @@ const api = (() => {
     return responseJson.data.threads; 
   }
 
-  async function getThreadDetail(id) {
+  async function getDetailThread(id) {
     const response = await fetch(`${BASE_URL}/threads/${id}`);
     const responseJson = await response.json();
     const { status, message } = responseJson;
@@ -149,6 +149,33 @@ const api = (() => {
     return responseJson.data.vote;
   }
 
+  async function toggleUpVoteComment(threadId, commentId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
+    return responseJson.data.vote;
+  }
+
+  async function toggleDownVoteComment(threadId, commentId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
+    return responseJson.data.vote;
+  }
+
+  async function toggleNeutralVoteComment(threadId, commentId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    if (responseJson.status !== 'success') throw new Error(responseJson.message);
+    return responseJson.data.vote;
+  }
+
   async function getLeaderboards() {
     const response = await fetch(`${BASE_URL}/leaderboards`);
     const responseJson = await response.json();
@@ -166,11 +193,14 @@ const api = (() => {
     getAllUsers,
     getAllThreads,
     createThread,
-    getThreadDetail,
+    getDetailThread,
     createComment,
     toggleUpVoteThread,
     toggleDownVoteThread,
     toggleNeutralVoteThread,
+    toggleUpVoteComment,
+    toggleDownVoteComment,
+    toggleNeutralVoteComment,
     getLeaderboards,
   };
 })();

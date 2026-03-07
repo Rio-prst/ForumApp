@@ -4,7 +4,8 @@ import { asyncPopulateUsersAndThreads } from '../states/shared/action';
 import TalksList from '../components/TalkList';
 
 function HomePage() {
-  const { threads = [], users = [] } = useSelector((state) => state);
+  const threads = useSelector((state) => state.threads);
+  const users = useSelector((state) => state.users);
   const [filter, setFilter] = useState('All');
   const dispatch = useDispatch();
 
