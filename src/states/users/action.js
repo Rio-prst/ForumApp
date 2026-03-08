@@ -20,7 +20,7 @@ function asyncRegisterUser({ name, email, password }) {
     } catch (error) {
       alert(error.message);
     } finally {
-      dispatch(setIsSubmittingActionCreator(false)); 
+      dispatch(setIsSubmittingActionCreator(false));
     }
   };
 }

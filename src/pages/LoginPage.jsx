@@ -9,7 +9,7 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const onLogin = ({ email, password }) => {
-    return dispatch(asyncSetAuthUser({ email, password })); 
+    return dispatch(asyncSetAuthUser({ email, password }));
   };
 
   return (
@@ -31,7 +31,7 @@ function LoginPage() {
             <span>or</span>
           </div>
           <p className='login-page__footer'>
-            Don't have an account? <Link to='/register'>Sign Up</Link>
+            Don&apos;t have an account? <Link to='/register'>Sign Up</Link>
           </p>
         </article>
       </div>

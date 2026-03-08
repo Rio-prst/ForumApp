@@ -4,7 +4,6 @@ import isPreloadReducer from './isPreload/reducer';
 import threadsReducer from './threads/reducer';
 import threadDetailReducer from './threadDetail/reducer';
 import usersReducer from './users/reducer';
-import loadingReducer from './loading/reducer';
 import leaderboardsReducer from './leaderboards/reducer';
 import { loadingBarReducer } from 'react-redux-loading-bar';
 

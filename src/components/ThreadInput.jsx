@@ -55,8 +55,8 @@ function ThreadInput({ addThread }) {
         />
       </div>
 
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         className="btn-publish-main"
         disabled={!title.trim() || !body.trim()}
       >

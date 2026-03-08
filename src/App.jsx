@@ -10,6 +10,7 @@ import AddThreadPage from './pages/AddThreadPage';
 import LeaderboardsPage from './pages/LeaderboardsPage';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import { asyncUnsetAuthUser } from './states/authUser/action';
+import LoadingBar from 'react-redux-loading-bar';
 
 function App() {
   const authUser = useSelector((state) => state.authUser);
@@ -35,6 +36,7 @@ function App() {
 
   return (
     <>
+      <LoadingBar style={{ backgroundColor: '#6366F1', position: 'fixed', top: 0, zIndex: 9999 }} />
       <div className='app-container'>
         <header>
           {!hideNavbar && <Navigation authUser={authUser} signOut={onSignOut} />}

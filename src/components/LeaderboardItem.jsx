@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function LeaderboardItem({ user, score, rank, isAuthUser }) {
   const getRankClass = () => {
@@ -23,5 +24,16 @@ function LeaderboardItem({ user, score, rank, isAuthUser }) {
     </div>
   );
 }
+
+LeaderboardItem.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
+  score: PropTypes.number.isRequired,
+  rank: PropTypes.number.isRequired,
+  isAuthUser: PropTypes.bool,
+};
 
 export default LeaderboardItem;

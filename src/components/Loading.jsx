@@ -5,7 +5,7 @@ function Loading() {
   return (
     <div className='spinner-wrapper'>
       <Loader2 className='spinner' size={18} />
-      <span>Memproses...</span>
+      <span>Proceed...</span>
     </div>
   );
 }

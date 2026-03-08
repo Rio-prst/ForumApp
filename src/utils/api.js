@@ -36,7 +36,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.user; 
+    return responseJson.data.user;
   }
 
   async function login({ email, password }) {
@@ -61,7 +61,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.users; 
+    return responseJson.data.users;
   }
 
   async function getOwnProfile() {
@@ -71,7 +71,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.user; 
+    return responseJson.data.user;
   }
 
   async function getAllThreads() {
@@ -81,7 +81,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.threads; 
+    return responseJson.data.threads;
   }
 
   async function getDetailThread(id) {
@@ -91,7 +91,7 @@ const api = (() => {
 
     if (status !== 'success') throw new Error(message);
 
-    return responseJson.data.detailThread; 
+    return responseJson.data.detailThread;
   }
 
   async function createThread({ title, body, category = '' }) {

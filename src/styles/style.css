@@ -862,6 +862,12 @@ body {
   background-color: var(--primary-light);
 }
 
+.loading-container {
+  display: flex; 
+  justify-content: center; 
+  margin-top: 100px;
+}
+
 /* ==============================
    ANIMATIONS & SKELETON
    ============================== */

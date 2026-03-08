@@ -11,7 +11,7 @@ function RegisterPage() {
 
   const onRegister = async ({ name, email, password }) => {
     await dispatch(asyncRegisterUser({ name, email, password }));
-    navigate('/login'); 
+    navigate('/login');
   };
 
   return (

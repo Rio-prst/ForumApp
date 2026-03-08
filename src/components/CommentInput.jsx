@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LogIn, Send } from 'lucide-react';
+import PropTypes from 'prop-types';
 
 function CommentInput({ authUser, addComment }) {
   const [content, setContent] = useState('');
@@ -32,9 +33,9 @@ function CommentInput({ authUser, addComment }) {
         onChange={(e) => setContent(e.target.value)}
       />
       <div className='comment-input__footer'>
-        <button 
-          type='button' 
-          className='btn-reply' 
+        <button
+          type='button'
+          className='btn-reply'
           disabled={!content.trim()}
           onClick={onCommentSubmit}
         >
@@ -45,5 +46,10 @@ function CommentInput({ authUser, addComment }) {
     </div>
   );
 }
+
+CommentInput.propTypes = {
+  authUser: PropTypes.object,
+  addComment: PropTypes.func.isRequired,
+};
 
 export default CommentInput;

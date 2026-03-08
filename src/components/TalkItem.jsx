@@ -28,7 +28,7 @@ function TalkItem({
     event.preventDefault();
     event.stopPropagation();
     if (!authUser) return alert('Please, login to vote!');
-    
+
     if (isUpVoted) {
       dispatch(asyncNeutralVoteThread(id));
     } else {
@@ -40,7 +40,7 @@ function TalkItem({
     event.preventDefault();
     event.stopPropagation();
     if (!authUser) return alert('Please, login to vote!');
-    
+
     if (isDownVoted) {
       dispatch(asyncNeutralVoteThread(id));
     } else {

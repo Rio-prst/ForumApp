@@ -5,15 +5,16 @@ import { MessageSquare, ArrowUp, ArrowDown } from 'lucide-react';
 import parse from 'html-react-parser';
 import CommentInput from '../components/CommentInput';
 import CommentItem from '../components/CommentItem';
-import { 
-  asyncReceiveThreadDetail, 
-  asyncToggleUpVoteThreadDetail, 
+import Loading from '../components/Loading';
+import {
+  asyncReceiveThreadDetail,
+  asyncToggleUpVoteThreadDetail,
   asyncToggleDownVoteThreadDetail,
   asyncToggleNeutralVoteThreadDetail,
   asyncToggleUpVoteComment,
   asyncToggleDownVoteComment,
   asyncToggleNeutralVoteComment,
-  asyncAddComment 
+  asyncAddComment
 } from '../states/threadDetail/action';
 
 function DetailPage() {
@@ -21,11 +22,17 @@ function DetailPage() {
   const { threadDetail = null, authUser } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  useEffect(() => { 
-    dispatch(asyncReceiveThreadDetail(id)); 
+  useEffect(() => {
+    dispatch(asyncReceiveThreadDetail(id));
   }, [id, dispatch]);
 
-  if (!threadDetail) return null;
+  if (!threadDetail) {
+    return (
+      <div className='loading-container'>
+        <Loading />
+      </div>
+    );
+  }
 
   const isUpvoted = authUser && threadDetail.upVotesBy.includes(authUser.id);
   const isDownvoted = authUser && threadDetail.downVotesBy.includes(authUser.id);
@@ -86,7 +93,7 @@ function DetailPage() {
             </div>
           </div>
         </header>
-        
+
         <div className='thread-body'>
           {parse(threadDetail.body)}
         </div>
@@ -114,17 +121,17 @@ function DetailPage() {
           <MessageSquare size={20} />
           <h3>Discussion ({threadDetail.comments.length})</h3>
         </div>
-        
+
         <CommentInput authUser={authUser} addComment={onAddComment} />
 
         <div className='comments-list'>
           {threadDetail.comments.map((comment) => (
-            <CommentItem 
-              key={comment.id} 
-              {...comment} 
+            <CommentItem
+              key={comment.id}
+              {...comment}
               authUser={authUser}
-              upvote={onUpvoteComment} 
-              downvote={onDownvoteComment} 
+              upvote={onUpvoteComment}
+              downvote={onDownvoteComment}
             />
           ))}
         </div>

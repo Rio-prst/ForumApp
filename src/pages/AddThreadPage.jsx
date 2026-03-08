@@ -25,7 +25,7 @@ function AddThreadPage() {
           <h2>Create New Discussion</h2>
           <p>Share your thoughts with the community</p>
         </header>
-        
+
         <ThreadInput addThread={onAddThread} />
       </div>
     </section>

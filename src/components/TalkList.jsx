@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import TalkItem from './TalkItem';
-import SkeletonItem from './SkeletonItem'; 
+import SkeletonItem from './SkeletonItem';
 
 function TalksList({ talks }) {
   const loadingBar = useSelector((state) => state.loadingBar);
