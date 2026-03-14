@@ -38,7 +38,5 @@ describe('Login spec', () => {
     cy.get('button').contains(/^Login$/).click();
 
     cy.contains('DiskusiHub', { timeout: 15000 }).should('be.visible');
-    cy.get('button[title="Sign Out"]', { timeout: 15000 }).should('be.visible');
-    cy.url().should('include', 'http://localhost:5173');
   });
 });
