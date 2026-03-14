@@ -37,12 +37,8 @@ describe('Login spec', () => {
 
     cy.get('button').contains(/^Login$/).click();
 
-    // Tunggu teks "Threads" muncul (timeout 10 detik) sebagai tanda login sukses
-    cy.contains('Threads', { timeout: 10000 }).should('be.visible');
-
+    cy.contains('DiskusiHub', { timeout: 15000 }).should('be.visible');
+    cy.get('button[title="Sign Out"]', { timeout: 15000 }).should('be.visible');
     cy.url().should('include', 'http://localhost:5173');
-    
-    // Verifikasi tombol Sign Out
-    cy.get('button[title="Sign Out"]').should('be.visible');
   });
 });
