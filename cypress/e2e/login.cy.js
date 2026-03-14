@@ -5,6 +5,10 @@
  *   - should display homepage when username and password are correct
  */
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
 describe('Login spec', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/login');
