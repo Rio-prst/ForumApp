@@ -4,7 +4,7 @@ import pluginJs from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
 import pluginHooks from 'eslint-plugin-react-hooks';
 import daStyle from 'eslint-config-dicodingacademy';
-import pluginCypress from 'eslint-config-cypress';
+import pluginCypress from 'eslint-plugin-cypress';
 
 export default [
   {
